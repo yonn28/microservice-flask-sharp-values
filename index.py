@@ -20,7 +20,7 @@ base_malnutrition = pd.read_csv('https://storage.googleapis.com/ds4all-test-bd1/
 with urlopen('https://storage.googleapis.com/ds4all-test-bd1/Modelo_relapse.sav') as response:
     modelo_relapse = joblib.load(response)
 
-base_relapse = pd.read_csv('https://storage.googleapis.com/ds4all-test-bd1/base_relapse.csv').drop(["IdBeneficiario","Unnamed: 0","Unnamed: 0.1"],axis=1)
+base_relapse = pd.read_csv('https://storage.googleapis.com/ds4all-test-bd1/base_relapse.csv').drop(["IdBeneficiario","Unnamed: 0"],axis=1)
 
 #-----------------------------------------Top 10 df-------------------------
 
