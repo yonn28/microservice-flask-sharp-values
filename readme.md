@@ -1,20 +1,20 @@
 ##### setting a debugger create folder .venv
 
 1.
-`````
+```
 python3 -m venv .venv
-`````
+```
 2
 activate enviroment
 
-`````
+```
 . .venv/bin/activate 
 
 ```
 
 4. configure launcer with the name of the index.py  of entry, and the python path
 
-`````
+```
 {
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.
@@ -46,11 +46,11 @@ activate enviroment
     ]
 }
 
-````
+```
 
 5. configure settings.json with the python path
 
-``````
+```
 {
     "python.testing.unittestArgs": [
         "-v",
@@ -64,8 +64,8 @@ activate enviroment
     "python.testing.unittestEnabled": true,
     "python.pythonPath": ".venv/bin/python3"
 }
+```
 
-````
 6. change the python interpreter for take into de account the virtual enviroment in vscode is with ctl + shift + python
 set this to the folder .env/bin/python3
 
