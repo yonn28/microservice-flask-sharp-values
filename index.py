@@ -1,8 +1,5 @@
 from flask import Flask, jsonify
 import pandas as pd
-from itertools import cycle
-from flask_cors import CORS
-from flask_sslify import SSLify
 from urllib.request import urlopen
 import joblib
 import ssl
@@ -27,16 +24,13 @@ base_relapse = pd.read_csv('https://storage.googleapis.com/ds4all-test-bd1/base_
 
 def createTable_top(objeto_modelo, base_variables):
     # Create a new column with the predicted probability:
-
     base_variables.loc[:, "Probability"] = objeto_modelo.predict_proba(base_variables)[:, 1]
     base_variables = base_variables.sort_values("Probability", ascending=False)
 
     # Create a column with the range of the probability:
-
     base_variables.loc[:, "Range_probability"] = pd.qcut(base_variables['Probability'], q=10, precision=0,
                                                          duplicates='drop')
     # Top 10%
-
     a = pd.DataFrame(base_variables.groupby(["Range_probability"]).size().reset_index()).rename(columns={0: 'Total'})
     buscado = a.loc[9, "Range_probability"]
 
@@ -49,22 +43,23 @@ def createTable_top(objeto_modelo, base_variables):
             'Probability','Range_probability']
     df = c_df.copy()
     df = df[cols]
+    show_df = df[df['AVG ZScore'] > -100]
 
-    return (df)
+    return (show_df)
 
-top10_mal = createTable_top(modelo_malnutrition, base_malnutrition)
+top10_mal = createTable_top(modelo_malnutrition, base_malnutrition).sample(frac=0.2)
+top10_mal["Range_probability"] = top10_mal["Range_probability"].astype(str)
 top10_rel = createTable_top(modelo_relapse, base_relapse)
+top10_rel["Range_probability"] = top10_rel["Range_probability"].astype(str)
 
 @app.route('/api/v2/mal', methods=['GET'])
 def getting_dataframe_mal():
-    top10_mal["Range_probability"] = top10_mal["Range_probability"].astype(str)
     return jsonify(top10_mal.to_dict("records"))
 
 @app.route('/api/v2/rel', methods=['GET'])
 def getting_dataframe_rel():
-    top10_rel["Range_probability"] = top10_rel["Range_probability"].astype(str)
     return jsonify(top10_rel.to_dict("records"))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080) #change port to 8080 for deployment, and host = '0.0.0.0'
-    # app.run(debug=True, port=3000) #change port to 8080 for deployment, and host = '0.0.0.0'
+    # app.run(debug=True, port=3000) #change port to 8080 for deployment, and host = '0.0.0.0'0
