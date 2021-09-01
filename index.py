@@ -53,14 +53,14 @@ top10_rel["Range_probability"] = top10_rel["Range_probability"].astype(str)
 
 @app.route('/api/v2/mal', methods=['GET'])
 def getting_dataframe_mal():
-    initial = request.headers.get('initial')
-    end = request.headers.get('end')
+    initial = int(request.headers.get('initial'))
+    end = int(request.headers.get('end'))
     return jsonify(top10_mal[initial:end].to_dict("records"))
 
 @app.route('/api/v2/rel', methods=['GET'])
 def getting_dataframe_rel():
-    initial = request.headers.get('initial')
-    end = request.headers.get('end')
+    initial = int(request.headers.get('initial'))
+    end = int(request.headers.get('end'))
     return jsonify(top10_rel[initial:end].to_dict("records"))
 
 if __name__ == '__main__':
