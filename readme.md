@@ -3,12 +3,13 @@
 1.
 `````
 python3 -m venv .venv
-````
+`````
 2
 activate enviroment
 
 `````
 . .venv/bin/activate 
+
 ```
 
 4. configure launcer with the name of the index.py  of entry, and the python path
@@ -44,6 +45,7 @@ activate enviroment
         }
     ]
 }
+
 ````
 
 5. configure settings.json with the python path
