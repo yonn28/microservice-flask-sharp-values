@@ -42,7 +42,7 @@ def createTable_top(objeto_modelo, base_variables):
             'ingresos_promp_imp', 'uni_dias_agua', 'cod_clase_2.0', 'cod_clase_3.0', 'noprivaciones', 'ind_estudia_1.0',
             'Probability','Range_probability']
     df = c_df.copy()
-    df = df[cols]
+    df = df[cols].reset_index()
     show_df = df[df['AVG_ZScorePesoTalla_12M'] > -100]
     return (show_df)
 
