@@ -12,15 +12,15 @@ app = Flask(__name__)
 
 #-----------------------------------------Models and DataBases-------------------------
 ##---------*Malnutrition*----------------
-# with urlopen('https://storage.googleapis.com/ds4all-test-bd1/Modelo_malnutrition.sav') as response:
-#     modelo_malnutrition = joblib.load(response)
+with urlopen('https://storage.googleapis.com/ds4all-test-bd1/Modelo_malnutrition.sav') as response:
+    modelo_malnutrition = joblib.load(response)
 
 base_malnutrition = pd.read_csv('https://storage.googleapis.com/ds4all-test-bd1/base_malnutrition.csv').drop(["IdBeneficiario","Unnamed: 0","Unnamed: 0.1"],axis=1)
 ##-----------*Relapse*----------------
 # with urlopen('https://storage.googleapis.com/ds4all-test-bd1/Modelo_relapse.sav') as response:
 #     modelo_relapse = joblib.load(response)
 
-base_relapse = pd.read_csv('https://storage.googleapis.com/ds4all-test-bd1/base_relapse.csv').drop(["IdBeneficiario","Unnamed: 0"],axis=1)
+# base_relapse = pd.read_csv('https://storage.googleapis.com/ds4all-test-bd1/base_relapse.csv').drop(["IdBeneficiario","Unnamed: 0"],axis=1)
 
 #-----------------------------------------Top 10 df-------------------------
 
@@ -46,7 +46,7 @@ def createTable_top(objeto_modelo, base_variables):
         'tip_cuidado_niños_6.0', 'tip_cuidado_niños_7.0', 'tip_cuidado_niños_8.0', 'tip_cuidado_niños_9.0',
         'ingresos_promp_imp', 'uni_dias_agua', 'cod_clase_2.0', 'cod_clase_3.0', 'noprivaciones', 'ind_estudia_1.0',
         'estrato_1.0', 'estrato_2.0', 'estrato_3.0', 'estrato_4.0', 'estrato_5.0', 'estrato_6.0', 'Probability',
-        'Range_probability']]
+        'Range_probability']].copy()
 
     return (c_df)
 
