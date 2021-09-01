@@ -56,4 +56,4 @@ def getting_dataframe_rel():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host = '0.0.0.0',port=3000) #change port to 8080 for deployment, and host = '0.0.0.0'
+    app.run(debug=True, host = '0.0.0.0',port=8080) #change port to 8080 for deployment, and host = '0.0.0.0'
