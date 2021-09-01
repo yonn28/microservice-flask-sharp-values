@@ -48,7 +48,7 @@ def createTable_top(objeto_modelo, base_variables):
 
 top10_mal = createTable_top(modelo_malnutrition, base_malnutrition).sample(frac=0.1)
 top10_mal["Range_probability"] = top10_mal["Range_probability"].astype(str)
-top10_rel = createTable_top(modelo_relapse, base_relapse).sample(frac=0.5)
+top10_rel = createTable_top(modelo_relapse, base_relapse).sample(frac=0.3)
 top10_rel["Range_probability"] = top10_rel["Range_probability"].astype(str)
 
 @app.route('/api/v2/mal', methods=['GET'])
