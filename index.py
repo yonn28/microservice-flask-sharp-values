@@ -46,9 +46,9 @@ def createTable_top(objeto_modelo, base_variables):
     show_df = df[df['AVG_ZScorePesoTalla_12M'] > -100]
     return (show_df)
 
-top10_mal = createTable_top(modelo_malnutrition, base_malnutrition).sample(frac=0.2)
+top10_mal = createTable_top(modelo_malnutrition, base_malnutrition).sample(frac=0.1)
 top10_mal["Range_probability"] = top10_mal["Range_probability"].astype(str)
-top10_rel = createTable_top(modelo_relapse, base_relapse)
+top10_rel = createTable_top(modelo_relapse, base_relapse).sample(frac=0.5)
 top10_rel["Range_probability"] = top10_rel["Range_probability"].astype(str)
 
 @app.route('/api/v2/mal', methods=['GET'])
