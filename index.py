@@ -12,13 +12,13 @@ app = Flask(__name__)
 
 #-----------------------------------------Models and DataBases-------------------------
 ##---------*Malnutrition*----------------
-with urlopen('https://storage.googleapis.com/ds4all-test-bd1/Modelo_malnutrition.sav') as response:
-    modelo_malnutrition = joblib.load(response)
+# with urlopen('https://storage.googleapis.com/ds4all-test-bd1/Modelo_malnutrition.sav') as response:
+#     modelo_malnutrition = joblib.load(response)
 
 base_malnutrition = pd.read_csv('https://storage.googleapis.com/ds4all-test-bd1/base_malnutrition.csv').drop(["IdBeneficiario","Unnamed: 0","Unnamed: 0.1"],axis=1)
 ##-----------*Relapse*----------------
-with urlopen('https://storage.googleapis.com/ds4all-test-bd1/Modelo_relapse.sav') as response:
-    modelo_relapse = joblib.load(response)
+# with urlopen('https://storage.googleapis.com/ds4all-test-bd1/Modelo_relapse.sav') as response:
+#     modelo_relapse = joblib.load(response)
 
 base_relapse = pd.read_csv('https://storage.googleapis.com/ds4all-test-bd1/base_relapse.csv').drop(["IdBeneficiario","Unnamed: 0"],axis=1)
 
@@ -51,7 +51,7 @@ def createTable_top(objeto_modelo, base_variables):
     return (c_df)
 
 top10_mal = createTable_top(modelo_malnutrition, base_malnutrition)
-top10_rel = createTable_top(modelo_relapse, base_relapse)
+# top10_rel = createTable_top(modelo_relapse, base_relapse)
 
 @app.route('/api/v2/mal', methods=['GET'])
 def getting_dataframe_mal():
@@ -59,11 +59,11 @@ def getting_dataframe_mal():
     # print(top10_mal)
     return jsonify(top10_mal.to_dict("records"))
 
-@app.route('/api/v2/rel', methods=['GET'])
-def getting_dataframe_rel():
-    top10_rel["Range_probability"] = top10_rel["Range_probability"].astype(str)
-    # print(top10_mal)
-    return jsonify(top10_rel.to_dict("records"))
+# @app.route('/api/v2/rel', methods=['GET'])
+# def getting_dataframe_rel():
+#     top10_rel["Range_probability"] = top10_rel["Range_probability"].astype(str)
+#     # print(top10_mal)
+#     return jsonify(top10_rel.to_dict("records"))
 
 
 if __name__ == '__main__':
