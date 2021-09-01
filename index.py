@@ -52,8 +52,10 @@ def getting_dataframe_mal():
 
 @app.route('/api/v2/rel', methods=['GET'])
 def getting_dataframe_rel():
+    top10_rel.to_dict("records")["Range_probability"].astype(str)
     return jsonify(top10_rel.to_dict("records"))
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host = '0.0.0.0',port=8080) #change port to 8080 for deployment, and host = '0.0.0.0'
+    # app.run(debug=True, host = '0.0.0.0',port=8080) #change port to 8080 for deployment, and host = '0.0.0.0'
+    app.run(debug=True, port=3000) #change port to 8080 for deployment, and host = '0.0.0.0'
