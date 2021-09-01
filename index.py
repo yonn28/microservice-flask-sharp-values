@@ -43,8 +43,7 @@ def createTable_top(objeto_modelo, base_variables):
             'Probability','Range_probability']
     df = c_df.copy()
     df = df[cols]
-    show_df = df[df['AVG ZScore'] > -100]
-
+    show_df = df[df['AVG_ZScorePesoTalla_12M'] > -100]
     return (show_df)
 
 top10_mal = createTable_top(modelo_malnutrition, base_malnutrition).sample(frac=0.2)
