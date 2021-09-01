@@ -66,7 +66,10 @@ activate enviroment
 }
 ```
 
-6. change the python interpreter for take into de account the virtual enviroment in vscode is with ctl + shift + python
-set this to the folder .env/bin/python3
+6. change the python interpreter for take into de account the virtual enviroment in vscode is with ctl + shift + P 
 
-with all this you can make your debug
+```
+set this to the folder .env/bin/python3
+```
+
+with all this you can make use your debugger for vscode
