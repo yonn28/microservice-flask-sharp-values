@@ -15,10 +15,10 @@ with urlopen('https://storage.googleapis.com/ds4all-test-bd1/Modelo_malnutrition
 
 base_malnutrition = pd.read_csv('https://storage.googleapis.com/ds4all-test-bd1/base_malnutrition.csv').drop(["IdBeneficiario","Unnamed: 0","Unnamed: 0.1"],axis=1)
 ##-----------*Relapse*----------------
-with urlopen('https://storage.googleapis.com/ds4all-test-bd1/Modelo_relapse.sav') as response:
-    modelo_relapse = joblib.load(response)
+#with urlopen('https://storage.googleapis.com/ds4all-test-bd1/Modelo_relapse.sav') as response:
+#    modelo_relapse = joblib.load(response)
 
-base_relapse = pd.read_csv('https://storage.googleapis.com/ds4all-test-bd1/base_relapse.csv').drop(["IdBeneficiario","Unnamed: 0"],axis=1)
+#base_relapse = pd.read_csv('https://storage.googleapis.com/ds4all-test-bd1/base_relapse.csv').drop(["IdBeneficiario","Unnamed: 0"],axis=1)
 
 #-----------------------------------------Top 10 df-------------------------
 
@@ -46,13 +46,13 @@ def createTable_top(objeto_modelo, base_variables):
     show_df = df[df['AVG_ZScorePesoTalla_12M'] > -100]
     return (show_df)
 
-top10_mal = createTable_top(modelo_malnutrition, base_malnutrition).sample(frac=0.2)
-top10_mal["Range_probability"] = top10_mal["Range_probability"].astype(str)
+top10_mal = createTable_top(modelo_malnutrition, base_malnutrition).sample(frac=0.05)
 #top10_rel = createTable_top(modelo_relapse, base_relapse)
 #top10_rel["Range_probability"] = top10_rel["Range_probability"].astype(str)
 
 @app.route('/api/v2/mal', methods=['GET'])
 def getting_dataframe_mal():
+    top10_mal["Range_probability"] = top10_mal["Range_probability"].astype(str)
     return jsonify(top10_mal.to_dict("records"))
 
 #@app.route('/api/v2/rel', methods=['GET'])
