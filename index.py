@@ -41,15 +41,17 @@ def createTable_top(objeto_modelo, base_variables):
     buscado = a.loc[9, "Range_probability"]
 
     c_df = base_variables[base_variables["Range_probability"] == buscado]
-    c_df = c_df[['MIN_ZScorePesoTalla_12M', 'AVG_ZScorePesoTalla_12M', 'MAX_ZScorePesoTalla_12M', 'Veces_DesnutricionSM_12M',
-        'Veces_SobrePeso_12M', 'Veces_Normal_12M', 'TienePasado', 'sexo_persona_1.0',
-        'tip_cuidado_niños_2.0', 'tip_cuidado_niños_3.0', 'tip_cuidado_niños_4.0', 'tip_cuidado_niños_5.0',
-        'tip_cuidado_niños_6.0', 'tip_cuidado_niños_7.0', 'tip_cuidado_niños_8.0', 'tip_cuidado_niños_9.0',
-        'ingresos_promp_imp', 'uni_dias_agua', 'cod_clase_2.0', 'cod_clase_3.0', 'noprivaciones', 'ind_estudia_1.0',
-        'estrato_1.0', 'estrato_2.0', 'estrato_3.0', 'estrato_4.0', 'estrato_5.0', 'estrato_6.0', 'Probability',
-        'Range_probability']].copy()
+    cols = ['MIN_ZScorePesoTalla_12M', 'AVG_ZScorePesoTalla_12M', 'MAX_ZScorePesoTalla_12M', 'Veces_DesnutricionSM_12M',
+            'Veces_SobrePeso_12M', 'Veces_Normal_12M', 'TienePasado', 'sexo_persona_1.0',
+            'tip_cuidado_niños_2.0', 'tip_cuidado_niños_3.0', 'tip_cuidado_niños_4.0', 'tip_cuidado_niños_5.0',
+            'tip_cuidado_niños_6.0', 'tip_cuidado_niños_7.0', 'tip_cuidado_niños_8.0', 'tip_cuidado_niños_9.0',
+            'ingresos_promp_imp', 'uni_dias_agua', 'cod_clase_2.0', 'cod_clase_3.0', 'noprivaciones', 'ind_estudia_1.0',
+            'estrato_1.0', 'estrato_2.0', 'estrato_3.0', 'estrato_4.0', 'estrato_5.0', 'estrato_6.0', 'Probability',
+            'Range_probability']
+    df = c_df.copy()
+    df = df[cols]
 
-    return (c_df)
+    return (df)
 
 top10_mal = createTable_top(modelo_malnutrition, base_malnutrition)
 top10_rel = createTable_top(modelo_relapse, base_relapse)
@@ -65,7 +67,6 @@ def getting_dataframe_rel():
     top10_rel["Range_probability"] = top10_rel["Range_probability"].astype(str)
     # print(top10_mal)
     return json.dumps(top10_rel.to_dict("records"))
-
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080) #change port to 8080 for deployment, and host = '0.0.0.0'
