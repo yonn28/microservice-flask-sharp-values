@@ -47,13 +47,13 @@ top10_mal = createTable_top(modelo_malnutrition, base_malnutrition)
 top10_rel = createTable_top(modelo_relapse, base_relapse)
 
 @app.route('/api/v2/mal', methods=['GET'])
-def getting_dataframe():
+def getting_dataframe_mal():
     return jsonify(top10_mal.to_dict("records"))
 
 @app.route('/api/v2/rel', methods=['GET'])
-def getting_dataframe():
+def getting_dataframe_rel():
     return jsonify(top10_rel.to_dict("records"))
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host = '0.0.0.0',port=8080) #change port to 8080 for deployment, and host = '0.0.0.0'
+    app.run(debug=True, host = '0.0.0.0',port=3000) #change port to 8080 for deployment, and host = '0.0.0.0'
