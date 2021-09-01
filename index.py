@@ -48,16 +48,16 @@ def createTable_top(objeto_modelo, base_variables):
 
 top10_mal = createTable_top(modelo_malnutrition, base_malnutrition).sample(frac=0.2)
 top10_mal["Range_probability"] = top10_mal["Range_probability"].astype(str)
-top10_rel = createTable_top(modelo_relapse, base_relapse)
-top10_rel["Range_probability"] = top10_rel["Range_probability"].astype(str)
+#top10_rel = createTable_top(modelo_relapse, base_relapse)
+#top10_rel["Range_probability"] = top10_rel["Range_probability"].astype(str)
 
 @app.route('/api/v2/mal', methods=['GET'])
 def getting_dataframe_mal():
-    return jsonify(top10_mal[0:5].to_dict("records"))
+    return jsonify(top10_mal.to_dict("records"))
 
-@app.route('/api/v2/rel', methods=['GET'])
-def getting_dataframe_rel():
-    return jsonify(top10_rel[0:5].to_dict("records"))
+#@app.route('/api/v2/rel', methods=['GET'])
+#def getting_dataframe_rel():
+#    return jsonify(top10_rel.to_dict("records"))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080) #change port to 8080 for deployment, and host = '0.0.0.0'
