@@ -71,15 +71,15 @@ def getting_dataframe_shap_rel():
 
 @app.route('/api/v2/show_rel', methods=['GET'])
 def getting_dataframe_rel():
-    initial = int(request.headers.get('initial'))
-    end = int(request.headers.get('end'))
-    return jsonify(show_table_r[initial:end].to_dict("records"))
+    #initial = int(request.headers.get('initial'))
+    #end = int(request.headers.get('end'))
+    return jsonify(show_table_r.to_dict("records"))
 
 @app.route('/api/v2/show_mal', methods=['GET'])
 def getting_dataframe_mal():
-    initial = int(request.headers.get('initial'))
-    end = int(request.headers.get('end'))
-    return jsonify(show_table_m[initial:end].to_dict("records"))
+    #initial = int(request.headers.get('initial'))
+    #end = int(request.headers.get('end'))
+    return jsonify(show_table_m.to_dict("records"))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080) #change port to 8080 for deployment, and host = '0.0.0.0'
