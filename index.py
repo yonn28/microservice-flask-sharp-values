@@ -27,7 +27,7 @@ p_range_m = str(top10_df_m["Range_probability"].iloc[0])
 n_children_m = top10_df_m.shape[0]
 shap_m = functions.plotShapValuesTop(modelo_malnutrition, top10_df_m)
 s_table_m = functions.table_to_show(top10_df_m)
-show_table_m = s_table_m[s_table_m['AVG ZScore'] > -100].sample(frac=0.1)
+show_table_m = s_table_m[s_table_m['AVG ZScore'] > -100].sample(frac=0.05)
 
 
 @app.route('/api/v2/mal_n', methods=['GET'])
