@@ -27,8 +27,7 @@ p_range_m = str(top10_df_m["Range_probability"].iloc[0])
 n_children_m = top10_df_m.shape[0]
 shap_m = functions.plotShapValuesTop(modelo_malnutrition, top10_df_m)
 s_table_m = functions.table_to_show(top10_df_m)
-show_table_m = s_table_m[s_table_m['AVG ZScore'] > -100].sample(frac=0.2)
-rows_m = show_table_m.shape[0]
+show_table_m = s_table_m[s_table_m['AVG ZScore'] > -100].sample(frac=0.1)
 
 
 @app.route('/api/v2/mal_n', methods=['GET'])
@@ -42,10 +41,6 @@ def getting_dataframe_mal_p():
 @app.route('/api/v2/shap_mal', methods=['GET'])
 def getting_dataframe_shap_mal():
     return jsonify(shap_m)
-
-@app.route('/api/v2/rows_mal', methods=['GET'])
-def getting_dataframe_rows_mal():
-    return jsonify(rows_m)
 
 @app.route('/api/v2/show_mal', methods=['GET'])
 def getting_dataframe_mal():
