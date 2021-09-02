@@ -3,8 +3,7 @@ import shap  # package used to calculate Shap values
 import matplotlib.pyplot as plt
 import io
 import base64
-import reduce
-
+from functools import reduce
 
 #-----------------------------------------Top 10 df-------------------------
 
