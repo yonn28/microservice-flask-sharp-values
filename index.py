@@ -4,6 +4,8 @@ from urllib.request import urlopen
 import joblib
 import ssl
 import json
+import functions
+
 ssl._create_default_https_context = ssl._create_unverified_context
 
 app = Flask(__name__)
@@ -22,44 +24,62 @@ base_relapse = pd.read_csv('https://storage.googleapis.com/ds4all-test-bd1/base_
 
 #-----------------------------------------Top 10 df-------------------------
 
-def createTable_top(objeto_modelo, base_variables):
-    # Create a new column with the predicted probability:
-    base_variables.loc[:, "Probability"] = objeto_modelo.predict_proba(base_variables)[:, 1]
-    base_variables = base_variables.sort_values("Probability", ascending=False)
+#-----------------------------------------*Relapse*------------------------------
+top10_df_r = functions.createTable_top(modelo_relapse, base_relapse)
+p_range_r = str(top10_df_r["Range_probability"].iloc[0])
+n_children_r = top10_df_r.shape[0]
+shap_r = functions.plotShapValuesTop(modelo_relapse, top10_df_r)
+s_table_r = functions.table_to_show(top10_df_r)
+show_table_r = s_table_r[s_table_r['AVG ZScore'] > -100]
 
-    # Create a column with the range of the probability:
-    base_variables.loc[:, "Range_probability"] = pd.qcut(base_variables['Probability'], q=10, precision=0,
-                                                         duplicates='drop')
-    # Top 10%
-    a = pd.DataFrame(base_variables.groupby(["Range_probability"]).size().reset_index()).rename(columns={0: 'Total'})
-    buscado = a.loc[9, "Range_probability"]
+#-----------------------------------------*Malnutrition*------------------------------
+top10_df_m = functions.createTable_top(modelo_malnutrition, base_malnutrition)
+p_range_m = str(top10_df_m["Range_probability"].iloc[0])
+n_children_m = top10_df_m.shape[0]
+shap_m = functions.plotShapValuesTop(modelo_malnutrition, top10_df_m)
+s_table_m = functions.table_to_show(top10_df_m)
+show_table_m = s_table_m[s_table_m['AVG ZScore'] > -100].sample(frac=0.2)
 
-    c_df = base_variables[base_variables["Range_probability"] == buscado]
-    cols = ['MIN_ZScorePesoTalla_12M', 'AVG_ZScorePesoTalla_12M', 'MAX_ZScorePesoTalla_12M', 'Veces_DesnutricionSM_12M',
-            'Veces_SobrePeso_12M', 'Veces_Normal_12M', 'TienePasado', 'sexo_persona_1.0',
-            'tip_cuidado_niños_2.0', 'tip_cuidado_niños_3.0', 'tip_cuidado_niños_4.0', 'tip_cuidado_niños_5.0',
-            'tip_cuidado_niños_6.0', 'tip_cuidado_niños_7.0', 'tip_cuidado_niños_8.0', 'tip_cuidado_niños_9.0',
-            'ingresos_promp_imp', 'uni_dias_agua', 'cod_clase_2.0', 'cod_clase_3.0', 'noprivaciones', 'ind_estudia_1.0',
-            'Probability','Range_probability']
-    df = c_df.copy()
-    df = df[cols].reset_index()
-    show_df = df[df['AVG_ZScorePesoTalla_12M'] > -100]
-    return (show_df)
 
-top10_mal = createTable_top(modelo_malnutrition, base_malnutrition).sample(frac=0.05)
-top10_rel = createTable_top(modelo_relapse, base_relapse)
-top10_rel["Range_probability"] = top10_rel["Range_probability"].astype(str)
+"""
 
-@app.route('/api/v2/mal', methods=['GET'])
-def getting_dataframe_mal():
-    top10_mal["Range_probability"] = top10_mal["Range_probability"].astype(str)
-    return jsonify(top10_mal.to_dict("records"))
+"""
 
-@app.route('/api/v2/rel', methods=['GET'])
+@app.route('/api/v2/mal_n', methods=['GET'])
+def getting_dataframe_mal_n():
+    return jsonify(n_children_m)
+
+@app.route('/api/v2/rel_n', methods=['GET'])
+def getting_dataframe_rel_n():
+    return jsonify(n_children_r)
+
+@app.route('/api/v2/mal_p', methods=['GET'])
+def getting_dataframe_mal_p():
+    return jsonify(p_range_m)
+
+@app.route('/api/v2/rel_p', methods=['GET'])
+def getting_dataframe_rel_p():
+    return jsonify(p_range_r)
+
+@app.route('/api/v2/shap_mal', methods=['GET'])
+def getting_dataframe_shap_mal():
+    return jsonify(shap_m)
+
+@app.route('/api/v2/shap_rel', methods=['GET'])
+def getting_dataframe_shap_rel():
+    return jsonify(shap_r)
+
+@app.route('/api/v2/show_rel', methods=['GET'])
 def getting_dataframe_rel():
     initial = int(request.headers.get('initial'))
     end = int(request.headers.get('end'))
-    return jsonify(top10_rel[initial:end].to_dict("records"))
+    return jsonify(show_table_r[initial:end].to_dict("records"))
+
+@app.route('/api/v2/show_mal', methods=['GET'])
+def getting_dataframe_mal():
+    initial = int(request.headers.get('initial'))
+    end = int(request.headers.get('end'))
+    return jsonify(show_table_m[initial:end].to_dict("records"))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080) #change port to 8080 for deployment, and host = '0.0.0.0'
